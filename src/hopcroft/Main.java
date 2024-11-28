@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		String filePath = "src/data/bier127.tsp";
+		String filePath = "";
 		File directory = new File("src/data/");
 		File[] files = directory.listFiles();
 		File retorno = new File("src/hopcroft/retorno.txt");
 		FileWriter writer = new FileWriter(retorno);
-		Map<Integer, Map<Integer, Float>> graph = TSPParser.parseTSP(filePath);
+		Map<Integer, Map<Integer, Float>> graph = new HashMap<>();
 		Map<Integer, List<Integer>> bipartiteGraph = new HashMap<>();
 
 		for (File f : files) {
