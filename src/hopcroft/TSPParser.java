@@ -14,8 +14,7 @@ public class TSPParser {
 
 		while ((line = reader.readLine()) != null) {
 			line = line.trim();
-			if (line.equals("EDGE_WEIGHT_SECTION") || line.equals("NODE_COORD_SECTION")
-					|| line.equals("DISPLAY_DATA_SECTION")) {
+			if (line.equals("EDGE_WEIGHT_SECTION") || line.equals("NODE_COORD_SECTION") || line.equals("DISPLAY_DATA_SECTION")) {
 				edgeWeightSection = true;
 				continue;
 			}
