@@ -4,38 +4,40 @@ import java.io.*;
 import java.util.*;
 
 public class TSPParser {
+	private TSPParser() {}
+	
 	public static Map<Integer, Map<Integer, Float>> parseTSP(String filePath) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(filePath));
-		Map<Integer, Map<Integer, Float>> graph = new HashMap<>();
-		String line;
-		boolean edgeWeightSection = false;
-		int city = 1;
-		String[] weights;
+		BufferedReader leitor = new BufferedReader(new FileReader(filePath));
+		Map<Integer, Map<Integer, Float>> grafo = new HashMap<>();
+		String linha;
+		boolean secaoDePesoDeArestas = false;
+		int cidade = 1;
+		String[] pesos;
 
-		while ((line = reader.readLine()) != null) {
-			line = line.trim();
-			if (line.equals("EDGE_WEIGHT_SECTION") || line.equals("NODE_COORD_SECTION") || line.equals("DISPLAY_DATA_SECTION")) {
-				edgeWeightSection = true;
+		while ((linha = leitor.readLine()) != null) {
+			linha = linha.trim();
+			if (linha.equals("EDGE_WEIGHT_SECTION") || linha.equals("NODE_COORD_SECTION") || linha.equals("DISPLAY_DATA_SECTION")) {
+				secaoDePesoDeArestas = true;
 				continue;
 			}
-			if (edgeWeightSection) {
-				if (line.equals("EOF"))
+			if (secaoDePesoDeArestas) {
+				if (linha.equals("EOF"))
 					break;
 
-				weights = line.split("\\s+");
-				for (String weight : weights) {
-					if (!graph.containsKey(city)) {
-						graph.put(city, new HashMap<>());
+				pesos = linha.split("\\s+");
+				for (String peso : pesos) {
+					if (!grafo.containsKey(cidade)) {
+						grafo.put(cidade, new HashMap<>());
 					}
-					int neighbor = graph.get(city).size() + city + 1;
-					if (neighbor <= graph.size() + 58) {
-						graph.get(city).put(neighbor, Float.parseFloat(weight));
+					int vizinho = grafo.get(cidade).size() + cidade + 1;
+					if (vizinho <= grafo.size() + 58) {
+						grafo.get(cidade).put(vizinho, Float.parseFloat(peso));
 					}
 				}
-				city++;
+				cidade++;
 			}
 		}
-		reader.close();
-		return graph;
+		leitor.close();
+		return grafo;
 	}
 }

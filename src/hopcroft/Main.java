@@ -10,30 +10,30 @@ import java.util.ArrayList;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		String filePath = "";
-		File directory = new File("src/data/");
-		File[] files = directory.listFiles();
-		File retorno = new File("src/hopcroft/retorno.txt");
-		FileWriter writer = new FileWriter(retorno);
-		Map<Integer, Map<Integer, Float>> graph = new HashMap<>();
-		Map<Integer, List<Integer>> bipartiteGraph = new HashMap<>();
+		String caminhoDoArquivo = "";
+		File diretorio = new File("src/data/");
+		File[] arquivos = diretorio.listFiles();
+		File arquivoDeRetorno = new File("src/hopcroft/retorno.txt");
+		FileWriter escritor = new FileWriter(arquivoDeRetorno);
+		Map<Integer, Map<Integer, Float>> grafo;
+		Map<Integer, List<Integer>> grafoBipartido;
 
-		for (File f : files) {
-			if (f.getName().endsWith(".tsp")) {
-				filePath = "src/data/" + f.getName();
-				System.out.print(f.getName().substring(0, f.getName().lastIndexOf(".")) + ": ");
-				writer.write(f.getName().substring(0, f.getName().lastIndexOf(".")) + ": ");
+		for (File arquivo : arquivos) {
+			if (arquivo.getName().endsWith(".tsp")) {
+				caminhoDoArquivo = "src/data/" + arquivo.getName();
+				System.out.print(arquivo.getName().substring(0, arquivo.getName().lastIndexOf(".")) + ": ");
+				escritor.write(arquivo.getName().substring(0, arquivo.getName().lastIndexOf(".")) + ": ");
 			}
-			graph = TSPParser.parseTSP(filePath);
-			bipartiteGraph = new HashMap<>();
-			for (int u : graph.keySet()) {
-				bipartiteGraph.put(u, new ArrayList<>(graph.get(u).keySet()));
+			grafo = TSPParser.parseTSP(caminhoDoArquivo);
+			grafoBipartido = new HashMap<>();
+			for (int no : grafo.keySet()) {
+				grafoBipartido.put(no, new ArrayList<>(grafo.get(no).keySet()));
 			}
-			HopcroftKarp hopcroftKarp = new HopcroftKarp(bipartiteGraph);
-			int maxMatching = hopcroftKarp.hopcroftKarp();
-			System.out.println(maxMatching);
-			writer.write(maxMatching + "\n");
+			HopcroftKarp algoritmoDeHopcroft = new HopcroftKarp(grafoBipartido);
+			int emparelhamentoMaximo = algoritmoDeHopcroft.hopcroftKarp();
+			System.out.println(emparelhamentoMaximo);
+			escritor.write(emparelhamentoMaximo + "\n");
 		}
-		writer.close();
+		escritor.close();
 	}
 }
